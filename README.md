@@ -19,7 +19,27 @@ This project is a memory game developed for the **Functional Programming** cours
    cd memory-game-university-project
    ```
 
-2. **Install the required dependencies:**
+2. **Create a virtual environment:**
+
+   ```bash
+   python -m venv venv
+   ```
+
+3. **Activate the virtual environment:**
+
+- On Windows:
+
+  ```bash
+  venv\Scripts\activate
+  ```
+
+- On macOS/Linux:
+
+  ```bash
+  source venv/bin/activate
+  ```
+
+4. **Install the required dependencies:**
 
    ```bash
    pip install -r requirements.txt

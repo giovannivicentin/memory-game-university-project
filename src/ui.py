@@ -1,3 +1,4 @@
+import os
 import pygame
 import random
 
@@ -23,24 +24,24 @@ def load_card_images():
     """
     images = {}
     for i in range(8):
-        image = pygame.Surface(CARD_SIZE)
-        image.fill(
-            (
-                random.randint(50, 255),
-                random.randint(50, 255),
-                random.randint(50, 255),
-            )
-        )
-        text_surface = FONT.render(str(i), True, (0, 0, 0))
-        image.blit(
-            text_surface,
-            (
-                CARD_SIZE[0] // 2 - text_surface.get_width() // 2,
-                CARD_SIZE[1] // 2 - text_surface.get_height() // 2,
-            ),
-        )
+        image_path = os.path.join('images', f'card_{i}.png')
+        if not os.path.exists(image_path):
+            raise FileNotFoundError(f"Image file not found: {image_path}")
+        image = pygame.image.load(image_path).convert_alpha()
+        image = pygame.transform.scale(image, CARD_SIZE)
         images[i] = image
     return images
+
+def load_back_image():
+    """
+    Loads the back image of the card.
+    """
+    image_path = os.path.join('images', 'back.png')
+    if not os.path.exists(image_path):
+        raise FileNotFoundError(f"Back image file not found: {image_path}")
+    image = pygame.image.load(image_path).convert_alpha()
+    image = pygame.transform.scale(image, CARD_SIZE)
+    return image
 
 
 def draw_game(screen, game_state, card_images, back_image):
@@ -48,7 +49,7 @@ def draw_game(screen, game_state, card_images, back_image):
     Draws the game state to the screen.
     """
     screen.fill((255, 255, 255))
-    deck = game_state["deck"]
+    deck = game_state['deck']
     for index, card in enumerate(deck):
         row = index // COLS
         col = index % COLS
@@ -97,25 +98,15 @@ def display_game_over(screen):
 
 
 def run_game_loop(game_state, update_game_state):
-    """
-    Runs the main game loop.
-    """
+    
+    # Initialize Pygame and set up the screen
     pygame.init()
     screen = pygame.display.set_mode(SCREEN_SIZE)
     pygame.display.set_caption("Memory Game")
 
     # Load images
     card_images = load_card_images()
-    back_image = pygame.Surface(CARD_SIZE)
-    back_image.fill((200, 200, 200))
-    text_surface = FONT.render("?", True, (0, 0, 0))
-    back_image.blit(
-        text_surface,
-        (
-            CARD_SIZE[0] // 2 - text_surface.get_width() // 2,
-            CARD_SIZE[1] // 2 - text_surface.get_height() // 2,
-        ),
-    )
+    back_image = load_back_image()
 
     clock = pygame.time.Clock()
     running = True

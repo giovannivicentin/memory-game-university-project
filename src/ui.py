@@ -3,7 +3,7 @@ import pygame
 
 pygame.font.init()
 
-CARD_SIZE = (100, 100)
+CARD_SIZE = (150, 150)
 MARGIN = 10
 ROWS = 4
 COLS = 4
@@ -33,7 +33,7 @@ def load_card_images():
         if not os.path.exists(image_path):
             raise FileNotFoundError(f"Image file not found: {image_path}")
         image = pygame.image.load(image_path).convert_alpha()
-        image = pygame.transform.scale(image, CARD_SIZE)
+        image = pygame.transform.smoothscale(image, CARD_SIZE)
         image = create_rounded_image(image, radius=15)
         images[i] = image
     return images
@@ -72,13 +72,11 @@ def draw_game(
                 # Second half, expanding
                 scale = (progress - 0.5) * 2
                 image = card_images[card.id]
-            # Scale the image horizontally
             scaled_width = int(CARD_SIZE[0] * abs(scale))
             if scaled_width > 0:
                 scaled_image = pygame.transform.scale(
                     image, (scaled_width, CARD_SIZE[1])
                 )
-                # Center the scaled image on the card position
                 image_x = x + (CARD_SIZE[0] - scaled_width) // 2
                 screen.blit(scaled_image, (image_x, y))
         else:
@@ -128,13 +126,13 @@ def run_game_loop(game_state, update_game_state):
     clock = pygame.time.Clock()
     running = True
     timer = 0
-    delay = 1000  # milliseconds
+    delay = 1000
 
     animations = {}
-    animation_duration = 250  # milliseconds
+    animation_duration = 280
 
     while running:
-        dt = clock.tick(30)  # dt in milliseconds
+        dt = clock.tick(30)
 
         if game_state["game_over"]:
             display_game_over(screen)
@@ -155,29 +153,23 @@ def run_game_loop(game_state, update_game_state):
                 if index is not None:
                     card = game_state["deck"][index]
                     if not card.flipped and not card.matched:
-                        # Start an animation for this card
                         animations[index] = {"progress": 0.0, "flipped": False}
 
-        # Update animations
         for index in list(animations.keys()):
             animation = animations[index]
             animation["progress"] += dt
             normalized_progress = animation["progress"] / animation_duration
 
             if not animation["flipped"] and normalized_progress >= 0.5:
-                # At halfway point, flip the card in game_state
                 action = {"type": "flip_card", "index": index}
                 game_state = update_game_state(game_state, action)
                 animation["flipped"] = True
-                # If after flipping, game_state['waiting'] is True, start timer
                 if game_state["waiting"]:
                     timer = pygame.time.get_ticks()
 
             if normalized_progress >= 1.0:
-                # Animation complete
                 del animations[index]
 
-        # Handle waiting state
         if game_state["waiting"] and len(animations) == 0:
             current_time = pygame.time.get_ticks()
             if current_time - timer >= delay:

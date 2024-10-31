@@ -56,7 +56,7 @@ python src/main.py
 ## Project Structure
 
 ```bash
-memory-game-university-project/<br>
+memory-game-university-project/
 ├── README.md
 ├── requirements.txt
 ├── .gitignore

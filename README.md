@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Este projeto é um jogo da memória desenvolvido para o curso de **Programação Funcional**. É um jogo simples onde os jogadores viram cartas para encontrar pares correspondentes. O jogo é construído usando Python e Pygame, aderindo a conceitos de programação funcional sempre que possível. Ele aplica conceitos fundamentais como imutabilidade, funções puras e código declarativo para criar uma experiência de jogo envolvente. O projeto demonstra os princípios da programação funcional na prática, reforçando seu uso por meio de uma aplicação interativa.
+Este projeto é um jogo da memória desenvolvido para o curso de **Ciência da Computação** da matéria de Programação Funcional. É um jogo simples onde os jogadores viram cartas para encontrar pares correspondentes. O jogo é construído usando Python e Pygame, aderindo a conceitos de programação funcional sempre que possível. Ele aplica conceitos fundamentais como imutabilidade, funções puras e código declarativo para criar uma experiência de jogo envolvente. O projeto demonstra os princípios da programação funcional na prática, reforçando seu uso por meio de uma aplicação interativa.
 
 ## Pré-requisitos
 

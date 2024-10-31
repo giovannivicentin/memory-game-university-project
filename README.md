@@ -45,7 +45,7 @@ Este projeto é um jogo da memória desenvolvido para o curso de **Programação
    pip install -r requirements.txt
    ```
 
-## Uso
+## Como Utilizar
 
 Execute o jogo com o seguinte comando:
 
@@ -60,6 +60,16 @@ memory-game-university-project/
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
+├── images/
+│ ├── card_0.png
+│ ├── card_1.png
+│ ├── card_2.png
+│ ├── card_3.png
+│ ├── card_4.png
+│ ├── card_5.png
+│ ├── card_6.png
+│ ├── card_7.png
+│ └── back.png
 ├── src/
 │ ├── __init__.py
 │ ├── main.py
@@ -81,6 +91,8 @@ memory-game-university-project/
 - ui.py: Gerencia os componentes da interface do usuário com Pygame.
 
 - tests/: Contém testes unitários para a lógica do jogo.
+
+- images/: Contém todas as imagens utilizadas para compor o jogo.
 
 ## Funcionalidades
 

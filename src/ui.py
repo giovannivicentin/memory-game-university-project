@@ -1,8 +1,6 @@
 import os
 import pygame
-import random
 
-# Initialize Pygame font module
 pygame.font.init()
 
 CARD_SIZE = (100, 100)
@@ -17,39 +15,44 @@ SCREEN_SIZE = (
 FONT = pygame.font.SysFont("Arial", 24)
 
 
+# this function make the images rounded in borders
+def create_rounded_image(image, radius):
+    rect = image.get_rect()
+    mask = pygame.Surface((rect.width, rect.height), pygame.SRCALPHA)
+    pygame.draw.rect(mask, (255, 255, 255, 255), mask.get_rect(), border_radius=radius)
+    rounded_image = pygame.Surface((rect.width, rect.height), pygame.SRCALPHA)
+    rounded_image.blit(image, (0, 0))
+    rounded_image.blit(mask, (0, 0), special_flags=pygame.BLEND_RGBA_MIN)
+    return rounded_image
+
+
 def load_card_images():
-    """
-    Loads card images.
-    Returns a dictionary mapping card ids to images.
-    """
     images = {}
     for i in range(8):
-        image_path = os.path.join('images', f'card_{i}.png')
+        image_path = os.path.join("images", f"card_{i}.png")
         if not os.path.exists(image_path):
             raise FileNotFoundError(f"Image file not found: {image_path}")
         image = pygame.image.load(image_path).convert_alpha()
         image = pygame.transform.scale(image, CARD_SIZE)
+        image = create_rounded_image(image, radius=15)
         images[i] = image
     return images
 
+
 def load_back_image():
-    """
-    Loads the back image of the card.
-    """
-    image_path = os.path.join('images', 'back.png')
+    image_path = os.path.join("images", "back.png")
     if not os.path.exists(image_path):
         raise FileNotFoundError(f"Back image file not found: {image_path}")
     image = pygame.image.load(image_path).convert_alpha()
     image = pygame.transform.scale(image, CARD_SIZE)
+    image = create_rounded_image(image, radius=15)
     return image
 
 
 def draw_game(screen, game_state, card_images, back_image):
-    """
-    Draws the game state to the screen.
-    """
-    screen.fill((255, 255, 255))
-    deck = game_state['deck']
+    # this is the rgb of background
+    screen.fill((000, 000, 000))
+    deck = game_state["deck"]
     for index, card in enumerate(deck):
         row = index // COLS
         col = index % COLS
@@ -65,9 +68,6 @@ def draw_game(screen, game_state, card_images, back_image):
 
 
 def get_card_index(pos):
-    """
-    Converts a mouse position to a card index.
-    """
     x, y = pos
     for index in range(ROWS * COLS):
         row = index // COLS
@@ -81,9 +81,7 @@ def get_card_index(pos):
 
 
 def display_game_over(screen):
-    """
-    Displays the game over message.
-    """
+
     text_surface = FONT.render(
         "Congratulations! You've completed the game.", True, (0, 0, 0)
     )
@@ -98,20 +96,17 @@ def display_game_over(screen):
 
 
 def run_game_loop(game_state, update_game_state):
-    
-    # Initialize Pygame and set up the screen
     pygame.init()
     screen = pygame.display.set_mode(SCREEN_SIZE)
     pygame.display.set_caption("Memory Game")
 
-    # Load images
     card_images = load_card_images()
     back_image = load_back_image()
 
     clock = pygame.time.Clock()
     running = True
     timer = 0
-    delay = 1000  # milliseconds
+    delay = 1000
 
     while running:
         if game_state["game_over"]:

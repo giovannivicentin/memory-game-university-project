@@ -61,12 +61,12 @@ memory-game-university-project/<br>
 ├── requirements.txt
 ├── .gitignore
 ├── src/
-│ ├── **init**.py
+│ ├── __init__.py
 │ ├── main.py
 │ ├── game_logic.py
 │ └── ui.py
 └── tests/
-├── **init**.py
+├── __init__.py
 └── test_game_logic.py
 ```
 

@@ -1,59 +1,59 @@
-# Memory Game University Project
+# Jogo da Memória - Projeto Universitário
 
-## Description
+## Descrição
 
-This project is a memory game developed for the **Functional Programming** course. It's a simple game where players flip over cards to find matching pairs. The game is built using Python and Pygame, adhering to functional programming concepts where possible. It applies core concepts like immutability, pure functions, and declarative code to create an engaging game experience. The project demonstrates functional programming principles in practice, reinforcing their usage through an interactive application.
+Este projeto é um jogo da memória desenvolvido para o curso de **Programação Funcional**. É um jogo simples onde os jogadores viram cartas para encontrar pares correspondentes. O jogo é construído usando Python e Pygame, aderindo a conceitos de programação funcional sempre que possível. Ele aplica conceitos fundamentais como imutabilidade, funções puras e código declarativo para criar uma experiência de jogo envolvente. O projeto demonstra os princípios da programação funcional na prática, reforçando seu uso por meio de uma aplicação interativa.
 
-## Prerequisites
+## Pré-requisitos
 
-- **Python 3.6** or higher
-- **pip** package manager
-- **Pygame** library (installed via `requirements.txt`)
+- **Python 3.6** ou superior
+- **pip** (gerenciador de pacotes)
+- Biblioteca **Pygame** (instalada via `requirements.txt`)
 
-## Installation
+## Instalação
 
-1. **Clone the repository:**
+1. **Clone o repositório:**
 
    ```bash
    git clone https://github.com/giovannivicentin/memory-game-university-project.git
    cd memory-game-university-project
    ```
 
-2. **Create a virtual environment:**
+2. **Crie um ambiente virtual:**
 
    ```bash
    python -m venv venv
    ```
 
-3. **Activate the virtual environment:**
+3. **Ative o ambiente virtual:**
 
-- On Windows:
+- No Windows:
 
   ```bash
   venv\Scripts\activate
   ```
 
-- On macOS/Linux:
+- No macOS/Linux:
 
   ```bash
   source venv/bin/activate
   ```
 
-4. **Install the required dependencies:**
+4. **Instale as dependências necessárias:**
 
    ```bash
    pip install -r requirements.txt
    ```
 
-## Usage
+## Uso
 
-Run the game using the following command:
+Execute o jogo com o seguinte comando:
 
 ```bash
 python src/main.py
 ```
 
-## Project Structure
+## Estrutura do Projeto
 
 ```bash
 memory-game-university-project/
@@ -70,81 +70,81 @@ memory-game-university-project/
 └── test_game_logic.py
 ```
 
-#### Explanation of structure:
+#### Explicação da estrutura:
 
-- src/: Contains all the source code.
+- src/: Contém todo o código-fonte.
 
-- main.py: The entry point of the application.
+- main.py: O ponto de entrada da aplicação.
 
-- game_logic.py: Implements the core game logic using
-  functional programming principles.
+- game_logic.py: Implementa a lógica central do jogo utilizando princípios de programação funcional.
 
-- ui.py: Manages the user interface components with Pygame.
+- ui.py: Gerencia os componentes da interface do usuário com Pygame.
 
-- tests/: Contains unit tests for the game logic.
+- tests/: Contém testes unitários para a lógica do jogo.
 
-## Features
+## Funcionalidades
 
-- Simple Gameplay: Click on cards to flip them and find matching pairs.
+- Jogabilidade Simples: Clique nas cartas para virá-las e encontrar pares correspondentes.
 
-- Functional Programming Principles: Emphasizes pure functions, immutability, and declarative code.
+- Princípios de Programação Funcional: Enfatiza funções puras, imutabilidade e código declarativo.
 
-- Graphical User Interface: Built with Pygame for an interactive experience.
+- Interface Gráfica: Construída com Pygame para uma experiência interativa.
 
-- Unit Testing: Includes tests to ensure the correctness of the game logic.
+- Testes Unitários: Inclui testes para garantir a correção da lógica do jogo.
 
-## Functional Programming Principles Applied
+## Princípios de Programação Funcional Aplicados
 
-- Pure Functions: Game logic functions are pure, returning new game states without side effects.
+- Funções Puras: As funções de lógica do jogo são puras, retornando novos estados do jogo sem efeitos colaterais.
 
-- Immutability: Uses immutable data structures; the game state is not modified but replaced with new instances.
+- Imutabilidade: Utiliza estruturas de dados imutáveis; o estado do jogo não é modificado, mas substituído por novas instâncias.
 
-- First-Class Functions: Functions are passed as arguments to other functions, promoting higher-order functions.
+- Funções de Primeira Classe: Funções são passadas como argumentos para outras funções, promovendo funções de ordem superior.
 
-- Declarative Code: Focuses on what the program should accomplish rather than how to accomplish it.
+- Código Declarativo: Foca no que o programa deve realizar, em vez de como realizá-lo.
 
-## Testing
+## Testes
 
-Run the unit tests with:
+Execute os testes unitários com:
 
 ```bash
 python -m unittest discover tests
 ```
 
-## Contributing
+## Contribuindo
 
-Contributions are welcome! Please follow these steps:
+Contribuições são bem-vindas! Siga estes passos:
 
-1. Fork the repository to your own GitHub account.
+1. Faça um fork do repositório para sua própria conta do GitHub.
 
-2. Create a new branch for your feature or bug fix:
-
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-
-3. Commit your changes with clear messages:
+2. Crie um novo branch para sua funcionalidade ou correção de bug:
 
    ```bash
-   git commit -m "Add feature: your feature name"
+   git checkout -b feature/sua-funcionalidade
    ```
 
-4. Push to your fork:
+3. Comite suas alterações com mensagens claras:
+
    ```bash
-   git push origin feature/your-feature-name
+   git commit -m "Adicionar funcionalidade: sua funcionalidade"
    ```
-5. Create a pull request in the original repository.
 
-## License
+4. Faça push para seu fork:
+   ```bash
+   git push origin feature/sua-funcionalidade
+   ```
 
-This project is licensed under the MIT License.
+5. Crie um pull request no repositório original.
 
-## Acknowledgments
+## Licença
 
-- University Course: Developed as a project for the Functional Programming course.
+Este projeto está licenciado sob a Licença MIT.
 
-- Pygame: Used for creating the graphical user interface.
+## Agradecimentos
 
-- Open-Source Community: Thanks to all open-source contributors for their invaluable resources.
+- Curso Universitário: Desenvolvido como um projeto para o curso de Programação Funcional.
 
-Feel free to explore the code, play the game, and contribute to the project!
+- Pygame: Usado para criar a interface gráfica do usuário.
+
+- Comunidade Open-Source: Agradecimentos a todos os colaboradores open-source por seus recursos inestimáveis.
+
+Sinta-se à vontade para explorar o código, jogar o jogo e contribuir para o projeto!

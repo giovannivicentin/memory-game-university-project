@@ -6,10 +6,8 @@ Card = namedtuple("Card", ["id", "flipped", "matched"])
 
 
 def create_deck():
-    """
-    Creates a shuffled deck of cards.
-    Returns a list of Card namedtuples.
-    """
+
+    # Creates a shuffled deck of cards and returns a list of Card namedtuples.
     num_pairs = 8  # For a 4x4 grid
     card_ids = list(range(num_pairs)) * 2  # Create pairs
     random.shuffle(card_ids)
@@ -18,10 +16,9 @@ def create_deck():
 
 
 def initialize_game():
-    """
-    Initializes the game state.
-    Returns a dictionary representing the game state.
-    """
+
+    # Initializes the game state and returns a dictionary representing the game state.
+
     deck = create_deck()
     game_state = {
         "deck": deck,
@@ -35,17 +32,16 @@ def initialize_game():
 
 
 def flip_card(game_state, index):
-    """
-    Flips a card at the given index.
-    Returns a new game state.
-    """
+
+    # Flips a card at the given index and returns a new game state.
+
     deck = game_state["deck"]
     card = deck[index]
 
     if card.flipped or card.matched or game_state["waiting"]:
-        return game_state  # Ignore if card is already flipped or matched
+        return game_state
 
-    # Flip the card
+    # flip here
     new_card = Card(id=card.id, flipped=True, matched=card.matched)
     new_deck = deck[:index] + [new_card] + deck[index + 1 :]
 
@@ -63,10 +59,8 @@ def flip_card(game_state, index):
 
 
 def check_for_match(game_state):
-    """
-    Checks if the two selected cards are a match.
-    Returns a new game state.
-    """
+
+    # Checks if the two selected cards are a match. return a new game state.
     first_index = game_state["first_selection"]
     second_index = game_state["second_selection"]
 
@@ -88,7 +82,6 @@ def check_for_match(game_state):
 
         matches_found = game_state["matches_found"] + 1
     else:
-        # Not a match
         new_first_card = Card(id=first_card.id, flipped=False, matched=False)
         new_second_card = Card(id=second_card.id, flipped=False, matched=False)
         new_deck[first_index] = new_first_card
@@ -109,10 +102,8 @@ def check_for_match(game_state):
 
 
 def update_game_state(game_state, action):
-    """
-    Updates the game state based on an action.
-    Returns a new game state.
-    """
+
+    # Updates the game state based on an action and return a new game state
     if action["type"] == "flip_card":
         index = action["index"]
         game_state = flip_card(game_state, index)

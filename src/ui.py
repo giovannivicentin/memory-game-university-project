@@ -13,7 +13,7 @@ SCREEN_SIZE = (
 )
 
 FONT = pygame.font.SysFont("Arial", 24)
-
+BIG_FONT = pygame.font.SysFont("Arial", 48)
 
 # This function makes the images have rounded borders
 def create_rounded_image(image, radius):
@@ -48,6 +48,140 @@ def load_back_image():
     image = create_rounded_image(image, radius=15)
     return image
 
+def draw_start_screen(screen):
+    # Background color
+    screen.fill((30, 30, 30))
+
+    # Title
+    title_text = BIG_FONT.render("Amadeu's Memories", True, (255, 255, 255))
+    screen.blit(
+        title_text,
+        (
+            SCREEN_SIZE[0] // 2 - title_text.get_width() // 2,
+            SCREEN_SIZE[1] // 4 - title_text.get_height() // 2,
+        ),
+    )
+
+    # Play Button
+    play_button_rect = pygame.Rect(
+        SCREEN_SIZE[0] // 2 - 100, SCREEN_SIZE[1] // 2, 200, 50
+    )
+    pygame.draw.rect(screen, (100, 200, 100), play_button_rect, border_radius=10)
+    play_text = FONT.render("Play", True, (255, 255, 255))
+    screen.blit(
+        play_text,
+        (
+            play_button_rect.centerx - play_text.get_width() // 2,
+            play_button_rect.centery - play_text.get_height() // 2,
+        ),
+    )
+
+    # Info Button
+    info_button_rect = pygame.Rect(SCREEN_SIZE[0] - 50, 10, 40, 40)
+    pygame.draw.circle(screen, (255, 255, 255), info_button_rect.center, 20)
+    info_text = FONT.render("i", True, (0, 0, 0))
+    screen.blit(
+        info_text,
+        (
+            info_button_rect.centerx - info_text.get_width() // 2,
+            info_button_rect.centery - info_text.get_height() // 2,
+        ),
+    )
+
+    pygame.display.flip()
+
+    return play_button_rect, info_button_rect
+
+
+def draw_info_screen(screen, game_state):
+    # Cor de fundo semitransparente para a tela de informações
+
+    overlay_color = (0, 0, 0, 200)  # Preto com transparência
+    overlay = pygame.Surface(SCREEN_SIZE, pygame.SRCALPHA)  # Surface com canal alfa
+    overlay.fill(overlay_color)  # Preenche com a cor de transparência
+
+    # Desenha o fundo translúcido
+    screen.blit(overlay, (0, 0))
+
+    info_text = [
+        "",
+        "Autores:",
+        "Giovanni Vicentin",
+        "Felipe Destro",
+        "Gabriel Araujo",
+        "Paulo Sérgio",
+        "",
+        "Clique em qualquer lugar para sair desta tela."
+    ]
+
+    # Renderiza cada linha do texto
+    y_offset = SCREEN_SIZE[1] // 4  # Começa a desenhar um pouco abaixo do topo
+    for line in info_text:
+        text_surface = FONT.render(line, True, (255, 255, 255))
+        screen.blit(
+            text_surface,
+            (SCREEN_SIZE[0] // 2 - text_surface.get_width() // 2, y_offset)
+        )
+        y_offset += text_surface.get_height() + 10  # Ajuste do espaçamento entre as linhas
+
+    pygame.display.flip()
+
+
+def get_button_index(pos, play_button_rect, info_button_rect):
+    if play_button_rect.collidepoint(pos):
+        return "play"
+    elif info_button_rect.collidepoint(pos):
+        return "info"
+    return None
+
+
+def run_start_screen():
+    pygame.init()
+    screen = pygame.display.set_mode(SCREEN_SIZE)
+    pygame.display.set_caption("Amadeu's Memories")
+
+    play_button_rect, info_button_rect = draw_start_screen(screen)
+    running = True
+    info_shown = False
+
+    # Criando um 'game_state' fictício para a tela de informações
+    game_state = {}
+
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                button_clicked = get_button_index(pos, play_button_rect, info_button_rect)
+                if button_clicked == "play":
+                    return "play"
+                elif button_clicked == "info" and not info_shown:
+                    info_shown = True
+                    draw_info_screen(screen, game_state)
+                elif info_shown:
+                    info_shown = False
+                    draw_start_screen(screen)
+
+    pygame.quit()
+
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                button_clicked = get_button_index(pos, play_button_rect, info_button_rect)
+                if button_clicked == "play":
+                    return "play"
+                elif button_clicked == "info" and not info_shown:
+                    info_shown = True
+                    draw_info_screen(screen)
+                elif info_shown:
+                    info_shown = False
+                    draw_start_screen(screen)
+
+    pygame.quit()
 
 def draw_game(
     screen, game_state, card_images, back_image, animations, animation_duration

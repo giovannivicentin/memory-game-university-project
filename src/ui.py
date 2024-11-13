@@ -12,10 +12,17 @@ SCREEN_SIZE = (
     ROWS * (CARD_SIZE[1] + MARGIN) + MARGIN,
 )
 
-FONT = pygame.font.SysFont("Arial", 24)
-BIG_FONT = pygame.font.SysFont("Arial", 48)
 
-# This function makes the images have rounded borders
+FONT_PATH = os.path.join("fonts", "gameovercre1.ttf")
+
+if not os.path.exists(FONT_PATH):
+    raise FileNotFoundError(f"Font file not found: {FONT_PATH}")
+
+
+FONT = pygame.font.Font(FONT_PATH, 24)  
+BIG_FONT = pygame.font.Font(FONT_PATH, 48) 
+
+
 def create_rounded_image(image, radius):
     rect = image.get_rect()
     mask = pygame.Surface((rect.width, rect.height), pygame.SRCALPHA)
@@ -38,7 +45,6 @@ def load_card_images():
         images[i] = image
     return images
 
-
 def load_back_image():
     image_path = os.path.join("images", "back.png")
     if not os.path.exists(image_path):
@@ -49,10 +55,15 @@ def load_back_image():
     return image
 
 def draw_start_screen(screen):
-    # Background color
-    screen.fill((30, 30, 30))
+    
+    background_path = os.path.join("images", "background.png")
+    if not os.path.exists(background_path):
+        raise FileNotFoundError(f"Background image file not found: {background_path}")
+    background_image = pygame.image.load(background_path)
+    background_image = pygame.transform.scale(background_image, SCREEN_SIZE)
 
-    # Title
+    screen.blit(background_image, (0, 0))
+
     title_text = BIG_FONT.render("Amadeu's Memories", True, (255, 255, 255))
     screen.blit(
         title_text,
@@ -62,12 +73,12 @@ def draw_start_screen(screen):
         ),
     )
 
-    # Play Button
+    
     play_button_rect = pygame.Rect(
         SCREEN_SIZE[0] // 2 - 100, SCREEN_SIZE[1] // 2, 200, 50
     )
     pygame.draw.rect(screen, (100, 200, 100), play_button_rect, border_radius=10)
-    play_text = FONT.render("Play", True, (255, 255, 255))
+    play_text = BIG_FONT.render("Play", True, (255, 255, 255))
     screen.blit(
         play_text,
         (
@@ -76,7 +87,7 @@ def draw_start_screen(screen):
         ),
     )
 
-    # Info Button
+    
     info_button_rect = pygame.Rect(SCREEN_SIZE[0] - 50, 10, 40, 40)
     pygame.draw.circle(screen, (255, 255, 255), info_button_rect.center, 20)
     info_text = FONT.render("i", True, (0, 0, 0))
@@ -94,13 +105,11 @@ def draw_start_screen(screen):
 
 
 def draw_info_screen(screen, game_state):
-    # Cor de fundo semitransparente para a tela de informações
+    
+    overlay_color = (0, 0, 0, 200)  
+    overlay = pygame.Surface(SCREEN_SIZE, pygame.SRCALPHA)  
+    overlay.fill(overlay_color)  
 
-    overlay_color = (0, 0, 0, 200)  # Preto com transparência
-    overlay = pygame.Surface(SCREEN_SIZE, pygame.SRCALPHA)  # Surface com canal alfa
-    overlay.fill(overlay_color)  # Preenche com a cor de transparência
-
-    # Desenha o fundo translúcido
     screen.blit(overlay, (0, 0))
 
     info_text = [
@@ -109,20 +118,19 @@ def draw_info_screen(screen, game_state):
         "Giovanni Vicentin",
         "Felipe Destro",
         "Gabriel Araujo",
-        "Paulo Sérgio",
+        "Paulo Orfanelli",
         "",
         "Clique em qualquer lugar para sair desta tela."
     ]
 
-    # Renderiza cada linha do texto
-    y_offset = SCREEN_SIZE[1] // 4  # Começa a desenhar um pouco abaixo do topo
+    y_offset = SCREEN_SIZE[1] // 4 
     for line in info_text:
         text_surface = FONT.render(line, True, (255, 255, 255))
         screen.blit(
             text_surface,
             (SCREEN_SIZE[0] // 2 - text_surface.get_width() // 2, y_offset)
         )
-        y_offset += text_surface.get_height() + 10  # Ajuste do espaçamento entre as linhas
+        y_offset += text_surface.get_height() + 10 
 
     pygame.display.flip()
 
@@ -144,7 +152,6 @@ def run_start_screen():
     running = True
     info_shown = False
 
-    # Criando um 'game_state' fictício para a tela de informações
     game_state = {}
 
     while running:

@@ -4,12 +4,11 @@ from collections import namedtuple
 # Define a Card namedtuple
 Card = namedtuple("Card", ["id", "flipped", "matched"])
 
-
 def create_deck():
 
     # Creates a shuffled deck of cards and returns a list of Card namedtuples.
     num_pairs = 8  # For a 4x4 grid
-    card_ids = list(range(num_pairs)) * 2  # Create pairs
+    card_ids = list(range(num_pairs))    * 2  # Create pairs
     random.shuffle(card_ids)
     deck = [Card(id=card_id, flipped=False, matched=False) for card_id in card_ids]
     return deck

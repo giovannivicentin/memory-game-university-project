@@ -235,18 +235,70 @@ def get_card_index(pos):
     return None
 
 
-def display_game_over(screen):
-    text_surface = FONT.render(
-        "Congratulations! You've completed the game.", True, (255, 255, 255)
-    )
+def draw_game_over_screen(screen):
+    # Carregar a imagem de fundo
+    fundo = pygame.image.load("images/fundosaida.jpeg")
+    fundo = pygame.transform.scale(fundo, SCREEN_SIZE)  # Ajustar à resolução da tela
+    screen.blit(fundo, (0, 0))  # Desenhar a imagem no fundo
+
+    # Texto "Parabéns Você Ganhou"
+    game_over_text = BIG_FONT.render("Parabéns Você Ganhou(:", True, (0, 0, 0))  # Cor preta
     screen.blit(
-        text_surface,
+        game_over_text,
         (
-            SCREEN_SIZE[0] // 2 - text_surface.get_width() // 2,
-            SCREEN_SIZE[1] // 2 - text_surface.get_height() // 2,
+            SCREEN_SIZE[0] // 2 - game_over_text.get_width() // 2,
+            SCREEN_SIZE[1] // 4 - game_over_text.get_height() // 2,
         ),
     )
+
+    # Botão "Jogar Novamente"
+    restart_button_rect = pygame.Rect(
+        SCREEN_SIZE[0] // 2 - 100, SCREEN_SIZE[1] // 2, 200, 50
+    )
+    pygame.draw.rect(screen, (100, 200, 100), restart_button_rect, border_radius=10)
+    restart_text = FONT.render("Jogar Novamente", True, (255, 255, 255))
+    screen.blit(
+        restart_text,
+        (
+            restart_button_rect.centerx - restart_text.get_width() // 2,
+            restart_button_rect.centery - restart_text.get_height() // 2,
+        ),
+    )
+
+    # Botão "Sair"
+    exit_button_rect = pygame.Rect(
+        SCREEN_SIZE[0] // 2 - 100, SCREEN_SIZE[1] // 2 + 60, 200, 50
+    )
+    pygame.draw.rect(screen, (200, 100, 100), exit_button_rect, border_radius=10)
+    exit_text = FONT.render("Sair", True, (255, 255, 255))
+    screen.blit(
+        exit_text,
+        (
+            exit_button_rect.centerx - exit_text.get_width() // 2,
+            exit_button_rect.centery - exit_text.get_height() // 2,
+        ),
+    )
+
     pygame.display.flip()
+
+    return restart_button_rect, exit_button_rect
+
+
+def handle_game_over(screen):
+    while True:
+        restart_button_rect, exit_button_rect = draw_game_over_screen(screen)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                if restart_button_rect.collidepoint(pos):
+                    return "restart"
+                elif exit_button_rect.collidepoint(pos):
+                    pygame.quit()
+                    exit()
 
 
 def run_game_loop(game_state, update_game_state):
@@ -269,9 +321,9 @@ def run_game_loop(game_state, update_game_state):
         dt = clock.tick(30)
 
         if game_state["game_over"]:
-            display_game_over(screen)
-            pygame.time.wait(3000)
-            running = False
+            action = handle_game_over(screen)
+            if action == "restart":
+                return "restart"
             continue
 
         for event in pygame.event.get():
@@ -320,3 +372,4 @@ def run_game_loop(game_state, update_game_state):
         )
 
     pygame.quit()
+

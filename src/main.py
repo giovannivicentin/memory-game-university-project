@@ -1,3 +1,4 @@
+import pygame
 from game_logic import initialize_game, update_game_state
 from ui import run_start_screen, run_game_loop
 

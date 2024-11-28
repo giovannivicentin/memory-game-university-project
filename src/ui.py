@@ -290,7 +290,6 @@ def draw_game_over_screen(screen):
 
     return restart_button_rect, exit_button_rect
 
-
 def handle_game_over(screen):
     while True:
         restart_button_rect, exit_button_rect = draw_game_over_screen(screen)
@@ -378,5 +377,3 @@ def run_game_loop(game_state, update_game_state):
         )
 
     pygame.quit()
-
-
